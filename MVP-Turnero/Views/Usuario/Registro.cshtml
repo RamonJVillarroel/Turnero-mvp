@@ -24,7 +24,12 @@
                         <input asp-for="Email" class="form-control" placeholder="Ingresa tu email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                   
+                    <div>
+                        <label class="form-label"> Seleciona un rol</label>
+                        <select name="RolId" asp-items="@ViewBag.Roles" class="form-select form-select-lg btn-outline-secondary"
+                                ></select>
+                    </div>
+                        
                     <div class="mb-3">
                         <label class="form-label" asp-for="Clave"></label>
                         <input autocomplete="new-password" asp-for="Clave" class="form-control" placeholder="Ingresa tu clave" />

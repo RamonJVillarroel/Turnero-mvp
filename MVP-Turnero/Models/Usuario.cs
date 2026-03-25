@@ -26,6 +26,10 @@ namespace MVP_Turnero.Models
         [Required(ErrorMessage = "El email es obligatorio.")]
         public string Email { get; set; }
 
+        public string RolId { get; set; }
+        public IdentityRole? Rol { get; set; }
+
+
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "La clave es obligatoria.")]
         public string Clave { get; set; }
@@ -45,6 +49,14 @@ namespace MVP_Turnero.Models
         [Required(ErrorMessage = "La clave es obligatoria.")]
         public string Clave { get; set; }
         public bool Recordarme { get; set; }
+    }
+
+    public class MiPerfilViewModel
+    {
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string? Email { get; set; }
+     
     }
 
 }

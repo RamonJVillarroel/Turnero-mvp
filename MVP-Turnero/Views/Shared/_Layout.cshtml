@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MVP_Turnero</title>
+    <title>@ViewData["Title"] - Turnero</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -36,7 +36,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                       <li class="nav-item">
-                            <a class="btn btn-primary" asp-area="" asp-controller="Usuario" asp-action="MiPerfil">Perfil</a>
+                            <a class="btn btn-primary" asp-controller="Usuario" asp-action="MiPerfil">Perfil</a>
                         </li>
                         <li class="nav-item">
                             <form asp-area="" asp-controller="Usuario" asp-action="Logout" method="post" class="d-inline">
