@@ -29,12 +29,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                   
+                          @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Turnos" asp-action="Index">Turnos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="TipoServicios" asp-action="Index">Servicios</a>
+                        </li>
+                        }
                     </ul>
                 </div>
                 <ul class="navbar-nav flex-grow">
                     @if (SignInManager.IsSignedIn(User))
                     {
+                       
                       <li class="nav-item">
                             <a class="btn btn-primary" asp-controller="Usuario" asp-action="MiPerfil">Perfil</a>
                         </li>

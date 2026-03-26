@@ -4,19 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Servicios</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Nuevo Servicio</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duracion)
@@ -29,9 +26,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profesional.UsuarioId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Duracion)

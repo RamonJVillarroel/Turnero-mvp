@@ -1,28 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVP_Turnero.Data;
 using MVP_Turnero.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MVP_Turnero.Controllers
 {
     public class TipoServiciosController : Controller
     {
         private readonly TurnoDbContext _context;
-
-        public TipoServiciosController(TurnoDbContext context)
+        private readonly UserManager<Usuario> _userManager;
+        public TipoServiciosController(TurnoDbContext context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: TipoServicios
         public async Task<IActionResult> Index()
         {
-            var turnoDbContext = _context.TipoServicios.Include(t => t.Profesional);
+            var turnoDbContext = _context.TipoServicios
+                .Include(t => t.Profesional);
             return View(await turnoDbContext.ToListAsync());
         }
 
@@ -48,7 +51,7 @@ namespace MVP_Turnero.Controllers
         // GET: TipoServicios/Create
         public IActionResult Create()
         {
-            ViewData["ProfesionalId"] = new SelectList(_context.Profesional, "UsuarioId", "UsuarioId");
+      
             return View();
         }
 
@@ -57,15 +60,21 @@ namespace MVP_Turnero.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,ProfesionalId,Duracion")] TipoServicio tipoServicio)
+        public async Task<IActionResult> Create(TipoServicio tipoServicio)
         {
+            var userId = _userManager.GetUserId(User);
+            tipoServicio.ProfesionalId = userId;
+
+            // Removemos la navegación del Profesional de la validación
+            ModelState.Remove("ProfesionalId");
+            ModelState.Remove("Profesional");
+
             if (ModelState.IsValid)
             {
                 _context.Add(tipoServicio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfesionalId"] = new SelectList(_context.Profesional, "UsuarioId", "UsuarioId", tipoServicio.ProfesionalId);
             return View(tipoServicio);
         }
 
@@ -82,7 +91,7 @@ namespace MVP_Turnero.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfesionalId"] = new SelectList(_context.Profesional, "UsuarioId", "UsuarioId", tipoServicio.ProfesionalId);
+            ViewData["ProfesionalId"] = new SelectList(_context.Profesional, "UsuarioId", "Nombre", tipoServicio.ProfesionalId);
             return View(tipoServicio);
         }
 
@@ -91,13 +100,19 @@ namespace MVP_Turnero.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,ProfesionalId,Duracion")] TipoServicio tipoServicio)
+        public async Task<IActionResult> Edit(int id,TipoServicio tipoServicio)
         {
+
             if (id != tipoServicio.Id)
             {
                 return NotFound();
             }
+            var userId = _userManager.GetUserId(User);
+            tipoServicio.ProfesionalId = userId;
 
+
+            ModelState.Remove("ProfesionalId");
+            ModelState.Remove("Profesional");
             if (ModelState.IsValid)
             {
                 try
